@@ -4,6 +4,7 @@ import Category from './pages/Category'
 import Navbar from './pages/Navbar'
 import Item from './pages/Item';
 import Order from './pages/Order';
+import User from './pages/User';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/category" element={<Category />} />
           <Route path="/product" element={<Item />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/user" element={<User/>} />
         </Routes>
       </div>
     </BrowserRouter>

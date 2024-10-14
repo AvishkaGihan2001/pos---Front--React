@@ -165,26 +165,19 @@ function Item() {
           onChange={handleItemID}
         />
         <button
-          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700 ml-3 mb-5"
+          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-3 mb-5"
           onClick={loadItem}
         >
           Load Product
         </button>
 
         <button
-          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700 ml-3 mb-5"
+          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-3 mb-5"
           onClick={clearSelectedItem}
         >
           Clear
         </button>
       </div>
-
-      <button
-        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:text-violet-700 ml-[950px] mb-5 "
-        onClick={() => openModal()}
-      >
-        Add Product
-      </button>
 
       {selectedItem && (
         <div className="flex flex-col border border-slate-400 rounded-lg p-5 mb-5">
@@ -199,6 +192,13 @@ function Item() {
           <p>Category ID: {selectedItem.category.name}</p>
         </div>
       )}
+
+      <button
+        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:bg-violet-700 hover:text-white ml-[950px] mb-5 "
+        onClick={() => openModal()}
+      >
+        Add Product
+      </button>
 
       <table className="table-auto w-full">
         <thead>
@@ -227,7 +227,7 @@ function Item() {
               </td>
               <td className="border border-slate-400 p-2">
                 <button
-                  className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700"
+                  className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white"
                   onClick={() => {
                     openModal();
                     setIsEditMode(true);
@@ -242,7 +242,7 @@ function Item() {
                   Edit
                 </button>
                 <button
-                  className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700 ml-3"
+                  className="p-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white ml-3 rounded-lg"
                   onClick={() => deleteItem(item.itemID)}
                 >
                   Delete

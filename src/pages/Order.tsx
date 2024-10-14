@@ -33,6 +33,7 @@ function Order() {
   }
 
   async function getItem(itemID: number) {
+    if (itemID <= 0) return alert("Item ID should be greater than 0");
     try {
       const apiResponse = await axios.get(
         `http://localhost:8080/item/${itemID}`
@@ -51,6 +52,10 @@ function Order() {
     if (!item) return;
     if (item.quantity < quantity) {
       alert("Not enough stock");
+      return;
+    }
+    if (quantity <= 0) {
+      alert("Quantity should be greater than 0");
       return;
     }
     itemList.push(item);
@@ -129,13 +134,13 @@ function Order() {
             value={itemID}
           />
           <button
-            className="bg-violet-500 text-white p-2 ml-2 rounded-lg"
+            className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-3 mb-5"
             onClick={() => getItem(itemID)}
           >
             Load Item
           </button>
           <button
-            className="bg-violet-500 text-white p-2 ml-2 rounded-lg"
+            className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-3 mb-5"
             onClick={clearItem}
           >
             Clear Item
@@ -173,7 +178,7 @@ function Order() {
 
         <div>
           <button
-            className="bg-violet-500 text-white p-2 w-full"
+            className="bg-violet-500 text-white p-2 w-full mt-5 rounded-xl hover:bg-violet-700 hover:text-white hover:shadow-lg"
             onClick={addToItemList}
           >
             Add Item
@@ -206,7 +211,7 @@ function Order() {
                 </td>
                 <td className="border border-gray-400 p-2">
                   <button
-                    className="bg-red-500 text-white p-2 rounded-lg"
+                    className="p-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white ml-3 rounded-lg"
                     onClick={() => removeFromItemList(item.itemID)}
                   >
                     Remove
@@ -217,7 +222,7 @@ function Order() {
           </tbody>
         </table>
         <button
-          className="bg-violet-500 text-white p-2 w-full mt-5"
+          className="bg-violet-500 text-white p-2 w-full mt-5 rounded-xl hover:bg-violet-700 hover:text-white hover:shadow-lg"
           onClick={() => addOrder()}
         >
           Place Order

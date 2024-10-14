@@ -90,7 +90,7 @@ function Categories() {
     try {
       confirm("Are you sure you want to delete this category?");
       await axios.delete(`http://localhost:8080/category/${categoryID}`);
-      loadCategories(); 
+      loadCategories();
     } catch (error) {
       alert("Error deleting category: " + error);
     }
@@ -142,26 +142,19 @@ function Categories() {
         />
 
         <button
-          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700 ml-10 mb-5"
+          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-10 mb-5"
           onClick={loadCategory}
         >
           Load Category
         </button>
 
         <button
-          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:text-violet-700 ml-3 mb-5"
+          className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white ml-3 mb-5"
           onClick={clearSelectedCategory}
         >
           Clear
         </button>
       </div>
-
-      <button
-        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:text-violet-700 ml-[950px] mb-5 "
-        onClick={() => openModal()}
-      >
-        Add Category
-      </button>
 
       {selectedCategory && (
         <div className="mb-5 p-4 border border-slate-400 rounded-lg">
@@ -171,6 +164,13 @@ function Categories() {
           <p>Description: {selectedCategory.description}</p>
         </div>
       )}
+
+      <button
+        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:bg-violet-700 hover:text-white ml-[950px] mb-5 "
+        onClick={() => openModal()}
+      >
+        Add Category
+      </button>
 
       <table className="table-auto w-full">
         <thead>
@@ -193,13 +193,13 @@ function Categories() {
               </td>
               <td className="border border-slate-400 p-2">
                 <button
-                  className="mr-3 px-4 py-2 border border-violet-500 text-violet-500 hover:bg-violet-500 hover:text-white rounded-lg"
+                  className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white"
                   onClick={() => openModal(category)}
                 >
                   Edit
                 </button>
                 <button
-                  className="px-4 py-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-lg"
+                  className="p-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white ml-3 rounded-lg"
                   onClick={() => deleteCategory(category.categoryID)}
                 >
                   Delete
