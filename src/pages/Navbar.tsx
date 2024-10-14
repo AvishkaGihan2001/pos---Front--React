@@ -34,6 +34,13 @@ const Navbar = () => {
           >
             Product
           </Link>
+          <Link
+            to="/order"
+            className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
+                      text-xl font-bold "
+          >
+            Order
+          </Link>
         </div>
         <div className="md:hidden">
           <button
