@@ -114,7 +114,7 @@ function Order() {
   return (
     <div className="flex">
       <div className="container mx-auto mt-5 mb-5 ml-10 w-[500px] border border-gray-400 p-5 rounded-lg">
-        <h1 className="text-2xl font-semibold mb-5">Orders</h1>
+        <h1 className="text-2xl font-semibold mb-5">Place Order</h1>
         <div>
           <label className="block mb-2">Customer Name</label>
           <input
@@ -127,9 +127,9 @@ function Order() {
         <div>
           <label className="block mb-2">Item ID</label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter Item ID"
-            className="border border-gray-300 p-1 mb-3 w-[200px]"
+            className="border border-gray-300 p-1 mb-3 w-[150px]"
             onChange={handleItemID}
             value={itemID}
           />

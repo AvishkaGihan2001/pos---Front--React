@@ -130,7 +130,7 @@ function User() {
 
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1100px]">
-      <h1 className="text-4xl font-bold underline mb-5 mt-5 text-violet-500">
+      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">
         Users
       </h1>
       <div className="flex items-center mb-5">
@@ -188,28 +188,28 @@ function User() {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="px-4 py-2">ID</th>
-              <th className="px-4 py-2">User Name</th>
-              <th className="px-4 py-2">Password</th>
-              <th className="px-4 py-2">Actions</th>
+              <th className="border border-slate-400 p-2">ID</th>
+              <th className="border border-slate-400 p-2">Name</th>
+              <th className="border border-slate-400 p-2">Password</th>
+              <th className="border border-slate-400 p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.userID}>
-                <td className="border px-4 py-2">{user.userID}</td>
-                <td className="border px-4 py-2">{user.username}</td>
-                <td className="border px-4 py-2">{user.password}</td>
-                <td className="border px-4 py-2">
+                <td className="border border-slate-400 p-2">{user.userID}</td>
+                <td className="border border-slate-400 p-2">{user.username}</td>
+                <td className="border border-slate-400 p-2">{user.password}</td>
+                <td className="border border-slate-400 p-2">
                   <button
                     onClick={() => openModal(user)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    className="p-2 border border-slate-400 rounded-lg text-violet-500 hover:bg-violet-700 hover:text-white"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => deleteUser(user.userID)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    className="p-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white ml-3 rounded-lg"
                   >
                     Delete
                   </button>
@@ -252,7 +252,7 @@ function User() {
                     <input
                       type="text"
                       id="name"
-                      name="name"
+                      name="username"
                       value={user.username}
                       onChange={handleChange}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -281,7 +281,7 @@ function User() {
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button
                     type="submit"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-violet-500 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 sm:ml-3
                                         sm:w-auto sm:text-sm"
                   >
                     Save
@@ -289,7 +289,7 @@ function User() {
                   <button
                     onClick={closeModal}
                     type="button"
-                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 sm:mt-0 sm:w-auto sm:text-sm"
                   >
                     Cancel
                   </button>

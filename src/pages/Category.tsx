@@ -128,8 +128,8 @@ function Categories() {
   }, []);
 
   return (
-    <div className="container mx-auto mt-5 mb-5 ml-10 w-[1100px]">
-      <h1 className="text-4xl font-bold underline mb-5 mt-5 text-violet-500">
+    <div className="container mx-auto mt-5 mb-5 ml-10 w-[1200px]">
+      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">
         Category
       </h1>
       <div className="flex items-center mb-5">
@@ -166,7 +166,7 @@ function Categories() {
       )}
 
       <button
-        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:bg-violet-700 hover:text-white ml-[950px] mb-5 "
+        className="p-4 border border-slate-400 rounded-lg me-3 text-violet-500 hover:bg-violet-700 hover:text-white ml-[950px] mb-5 w-[200px]"
         onClick={() => openModal()}
       >
         Add Category

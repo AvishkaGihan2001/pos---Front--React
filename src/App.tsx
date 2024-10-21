@@ -5,6 +5,8 @@ import Navbar from './pages/Navbar'
 import Item from './pages/Item';
 import Order from './pages/Order';
 import User from './pages/User';
+import Login from './pages/Login';
+import OrderDetails from './pages/OrderDetails';
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
           <Route path="/category" element={<Category />} />
           <Route path="/product" element={<Item />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/user" element={<User/>} />
+          <Route path='/orderDetails' element={<OrderDetails />} />
+          <Route path="/user" element={<User />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </div>
     </BrowserRouter>

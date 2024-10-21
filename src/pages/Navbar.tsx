@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -34,19 +39,52 @@ const Navbar = () => {
           >
             Product
           </Link>
-          <Link
-            to="/order"
-            className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
-                      text-xl font-bold "
-          >
-            Order
-          </Link>
+          <div className="relative inline-block">
+            {/* Order Button */}
+            <button
+              onClick={toggleDropdown}
+              className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white text-xl font-bold"
+            >
+              Order
+            </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute mt-2 w-48 bg-violet-400 rounded-lg shadow-lg z-10">
+                <ul className="py-2">
+                  <li>
+                    <Link
+                      to="/orderDetails"
+                      className="block px-4 py-2 text-gray-800 hover:bg-violet-300"
+                    >
+                      View Orders
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/order"
+                      className="block px-4 py-2 text-gray-800 hover:bg-violet-300"
+                    >
+                      Place Order
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
           <Link
             to="/user"
             className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
                       text-xl font-bold "
           >
             User
+          </Link>
+          <Link
+            to="/login"
+            className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
+                      text-xl font-bold "
+          >
+            Login
           </Link>
         </div>
         <div className="md:hidden">
