@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import UserType from "../types/UserType";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function User() {
+  const { isAuthenticated, jwtToken } = useAuth();
+
   const [users, setUsers] = useState<UserType[]>([]);
   const [user, setUser] = useState<UserType>({
     userID: 0,
@@ -21,7 +24,10 @@ function User() {
   // Load all users
   async function loadUsers() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/users");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/users",
+        config
+      );
       setUsers(apiResponse.data);
     } catch (error) {
       alert("Error loading users: " + error);
@@ -32,7 +38,8 @@ function User() {
   async function loadUser() {
     try {
       const apiResponse = await axios.get(
-        `http://localhost:8080/user/${userID}`
+        `http://localhost:8080/user/${userID}`,
+        config
       );
       setSelectedUser(apiResponse.data); // Set the single user
     } catch (error) {
@@ -47,7 +54,7 @@ function User() {
     const data = { username: user.username, password: user.password };
 
     try {
-      await axios.post("http://localhost:8080/user", data);
+      await axios.post("http://localhost:8080/user", data, config);
       loadUsers(); // Reload users after adding
     } catch (error) {
       alert("Error adding user: " + error);
@@ -62,7 +69,11 @@ function User() {
     const data = { username: user.username, password: user.password };
 
     try {
-      await axios.put(`http://localhost:8080/user/${user.userID}`, data);
+      await axios.put(
+        `http://localhost:8080/user/${user.userID}`,
+        data,
+        config
+      );
       loadUsers(); // Reload users after updating
     } catch (error) {
       alert("Error updating user: " + error);
@@ -72,7 +83,7 @@ function User() {
   // Delete a user
   async function deleteUser(userID: number) {
     try {
-      await axios.delete(`http://localhost:8080/user/${userID}`);
+      await axios.delete(`http://localhost:8080/user/${userID}`, config);
       loadUsers(); // Reload users after deleting
     } catch (error) {
       alert("Error deleting user: " + error);
@@ -80,8 +91,10 @@ function User() {
   }
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+    if (isAuthenticated) {
+      loadUsers();
+    }
+  }, [isAuthenticated]);
 
   // Open the modal
   function openModal(user?: UserType) {
@@ -128,11 +141,15 @@ function User() {
     setSelectedUser(null);
   }
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
+
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1100px]">
-      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">
-        Users
-      </h1>
+      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">Users</h1>
       <div className="flex items-center mb-5">
         <input
           className="flex w-[200px] p-2 border border-slate-400 rounded-lg text-slate-800 text-md mb-4"

@@ -4,8 +4,11 @@ import ItemType from "../types/ItemType";
 import OrderType from "../types/OrderType";
 import axios from "axios";
 import UserType from "../types/UserType";
+import { useAuth } from "../context/AuthContext";
 
 function Home() {
+  const { isAuthenticated, jwtToken } = useAuth();
+
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [items, setItems] = useState<ItemType[]>([]);
   const [orders, setOrders] = useState<OrderType[]>([]);
@@ -18,7 +21,10 @@ function Home() {
 
   async function getCategories() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/categories");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/categories",
+        config
+      );
 
       setCategories(apiResponse.data);
       setCategoryCount(categories.length);
@@ -29,7 +35,10 @@ function Home() {
 
   async function getItems() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/items");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/items",
+        config
+      );
 
       setItems(apiResponse.data);
       setItemCount(items.length);
@@ -40,7 +49,10 @@ function Home() {
 
   async function getOrders() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/orders");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/orders",
+        config
+      );
 
       setOrders(apiResponse.data);
       setOrderCount(orders.length);
@@ -51,7 +63,10 @@ function Home() {
 
   async function getUsers() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/users");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/users",
+        config
+      );
 
       setUsers(apiResponse.data);
       setUserCount(users.length);
@@ -61,11 +76,20 @@ function Home() {
   }
 
   useEffect(() => {
-    getCategories();
-    getItems();
-    getOrders();
-    getUsers();
-  }, []);
+    if (isAuthenticated) {
+      getCategories();
+      getItems();
+      getOrders();
+      getUsers();
+    }
+  }, [isAuthenticated]);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
+
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1200px]">
       <h1 className="text-4xl font-bold underline mb-5 mt-5 text-violet-500">

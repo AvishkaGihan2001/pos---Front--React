@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import OrderType from "../types/OrderType";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function OrderDetails() {
+  const { isAuthenticated, jwtToken } = useAuth();
+
   const [orders, setOrders] = useState<OrderType[]>([]);
   const [orderID, setOrderID] = useState<number>(0);
   const [selectedOrder, setSelectedOrder] = useState<OrderType | null>(null);
 
   async function loadOrders() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/orders");
+      const apiResponse = await axios.get(
+        "http://localhost:8080/orders",
+        config
+      );
       setOrders(apiResponse.data);
     } catch (error) {
       alert("Error loading orders: " + error);
@@ -19,13 +25,13 @@ function OrderDetails() {
   async function loadOrder() {
     try {
       const apiResponse = await axios.get(
-        `http://localhost:8080/order/${orderID}`
+        `http://localhost:8080/order/${orderID}`,
+        config
       );
       setSelectedOrder(apiResponse.data);
     } catch (error) {
       alert("Order not found: " + error);
-      }
-      
+    }
   }
 
   function handleOrderID(event: React.ChangeEvent<HTMLInputElement>) {
@@ -38,8 +44,16 @@ function OrderDetails() {
   }
 
   useEffect(() => {
-    loadOrders();
-  }, []);
+    if (isAuthenticated) {
+      loadOrders();
+    }
+  }, [isAuthenticated]);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
 
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1200px]">
@@ -90,31 +104,31 @@ function OrderDetails() {
             {selectedOrder.orderTotal}
           </p>
         </div>
-          )}
-          
-          <table className="table-auto w-full">
-            <thead>
-              <tr>
-                <th className="border border-slate-400 p-2">Order ID</th>
-                <th className="border border-slate-400 p-2">Order Date</th>
-                <th className="border border-slate-400 p-2">Customer Name</th>
-                <th className="border border-slate-400 p-2">Total Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr
-                  key={order.orderID}
-                  className="text-center border border-slate-400"
-                >
-                  <td className="p-2">{order.orderID}</td>
-                  <td className="p-2">{order.orderDateTime}</td>
-                  <td className="p-2">{order.customerName}</td>
-                  <td className="p-2">{order.orderTotal}</td>
-                </tr>
-              ))}
-            </tbody>
-           </table>
+      )}
+
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th className="border border-slate-400 p-2">Order ID</th>
+            <th className="border border-slate-400 p-2">Order Date</th>
+            <th className="border border-slate-400 p-2">Customer Name</th>
+            <th className="border border-slate-400 p-2">Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr
+              key={order.orderID}
+              className="text-center border border-slate-400"
+            >
+              <td className="p-2">{order.orderID}</td>
+              <td className="p-2">{order.orderDateTime}</td>
+              <td className="p-2">{order.customerName}</td>
+              <td className="p-2">{order.orderTotal}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

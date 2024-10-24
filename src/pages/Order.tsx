@@ -3,8 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import ItemType from "../types/ItemType";
 import OrderType from "../types/OrderType";
+import { useAuth } from "../context/AuthContext";
 
 function Order() {
+
+    const { isAuthenticated, jwtToken } = useAuth();
+
   const [orders, setOrders] = useState<OrderType[]>([]);
   const [itemID, setItemID] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -36,7 +40,7 @@ function Order() {
     if (itemID <= 0) return alert("Item ID should be greater than 0");
     try {
       const apiResponse = await axios.get(
-        `http://localhost:8080/item/${itemID}`
+        `http://localhost:8080/item/${itemID}`, config
       );
       if (apiResponse.data) {
         setItem(apiResponse.data);
@@ -84,7 +88,9 @@ function Order() {
     };
 
     try {
-      const apiResponse = await axios.post("http://localhost:8080/order", data);
+      const apiResponse = await axios.post("http://localhost:8080/order", data, config);
+      
+      alert("Order placed successfully");
 
       setOrderDetails(apiResponse.data);
       setIsModalOpen(true);
@@ -111,6 +117,12 @@ function Order() {
     setItemName("");
     setItemDescription("");
   }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    };
   return (
     <div className="flex">
       <div className="container mx-auto mt-5 mb-5 ml-10 w-[500px] border border-gray-400 p-5 rounded-lg">

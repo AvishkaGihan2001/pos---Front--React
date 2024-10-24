@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import ItemType from "../types/ItemType";
 import axios from "axios";
 import CategoryType from "../types/CategoryType";
+import { useAuth } from "../context/AuthContext";
 
 function Item() {
+  const { isAuthenticated, jwtToken } = useAuth();
+
   const [items, setItems] = useState<ItemType[]>([]);
   const [itemID, setItemID] = useState<number>(0);
   const [name, setName] = useState<string>("");
@@ -19,7 +22,7 @@ function Item() {
 
   async function loadItems() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/items");
+      const apiResponse = await axios.get("http://localhost:8080/items",config);
       setItems(apiResponse.data);
     } catch (error) {
       alert("Error loading items: " + error);
@@ -29,7 +32,7 @@ function Item() {
   async function loadItem() {
     try {
       const apiResponse = await axios.get(
-        `http://localhost:8080/item/${itemID}`
+        `http://localhost:8080/item/${itemID}`,config
       );
       setSelectedItem(apiResponse.data); // Set the single item
     } catch (error) {
@@ -73,7 +76,7 @@ function Item() {
     };
 
     try {
-      await axios.post("http://localhost:8080/item", data);
+      await axios.post("http://localhost:8080/item", data,config);
       loadItems(); // Reload items after adding
       closeModal();
     } catch (error) {
@@ -102,7 +105,7 @@ function Item() {
     };
 
     try {
-      await axios.put(`http://localhost:8080/item/${editItemID}`, data);
+      await axios.put(`http://localhost:8080/item/${editItemID}`, data , config);
       loadItems(); // Reload items after updating
       closeModal();
     } catch (error) {
@@ -113,7 +116,7 @@ function Item() {
   async function deleteItem(itemID: number) {
     try {
       confirm("Are you sure you want to delete this item?");
-      await axios.delete(`http://localhost:8080/item/${itemID}`);
+      await axios.delete(`http://localhost:8080/item/${itemID}` , config);
       loadItems(); // Reload items after deleting
     } catch (error) {
       alert("Error deleting item: " + error);
@@ -141,21 +144,27 @@ function Item() {
   }
 
   useEffect(() => {
-    loadItems();
-    loadCategories();
-  }, []);
+    if (isAuthenticated) {
+      loadItems();
+      loadCategories();
+    }
+  }, [isAuthenticated]);
 
   function loadCategories() {
-    axios.get("http://localhost:8080/categories").then((response) => {
+    axios.get("http://localhost:8080/categories" , config).then((response) => {
       setCategories(response.data);
     });
   }
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
+
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1200px]">
-      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">
-        Product
-      </h1>
+      <h1 className="text-4xl font-bold  mb-5 mt-5 text-violet-500">Product</h1>
       <div className="flex items-center mb-5">
         <input
           className="flex w-[200px] p-2 border border-slate-400 rounded-lg text-slate-800 text-md mb-4"

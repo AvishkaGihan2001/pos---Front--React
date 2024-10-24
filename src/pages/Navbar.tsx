@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const{logout} = useAuth();
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -79,13 +82,10 @@ const Navbar = () => {
           >
             User
           </Link>
-          <Link
-            to="/login"
-            className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
-                      text-xl font-bold "
-          >
-            Login
-          </Link>
+          <button className="text-white hover:text-gray-300 border-b-2 border-transparent hover:border-white
+                      text-xl font-bold " onClick={logout}>
+            Logout
+          </button>
         </div>
         <div className="md:hidden">
           <button

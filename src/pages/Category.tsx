@@ -3,8 +3,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CategoryType from "../types/CategoryType";
+import { useAuth } from "../context/AuthContext";
 
 function Categories() {
+
+  const {isAuthenticated , jwtToken} = useAuth();
+
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [categoryID, setCategoryID] = useState<number>(0);
   const [categoryName, setCategoryName] = useState<string>("");
@@ -19,7 +23,7 @@ function Categories() {
   // Load all categories
   async function loadCategories() {
     try {
-      const apiResponse = await axios.get("http://localhost:8080/categories");
+      const apiResponse = await axios.get("http://localhost:8080/categories",config);
       setCategories(apiResponse.data);
     } catch (error) {
       alert("Error loading categories: " + error);
@@ -30,7 +34,7 @@ function Categories() {
   async function loadCategory() {
     try {
       const apiResponse = await axios.get(
-        `http://localhost:8080/category/${categoryID}`
+        `http://localhost:8080/category/${categoryID}`,config
       );
       setSelectedCategory(apiResponse.data); // Set the single category
     } catch (error) {
@@ -58,7 +62,7 @@ function Categories() {
     const data = { name: categoryName, description: description };
 
     try {
-      await axios.post("http://localhost:8080/category", data);
+      await axios.post("http://localhost:8080/category", data,config);
       loadCategories(); // Reload categories after adding
       closeModal();
     } catch (error) {
@@ -77,7 +81,7 @@ function Categories() {
     };
 
     try {
-      await axios.put(`http://localhost:8080/category/${editCategoryID}`, data);
+      await axios.put(`http://localhost:8080/category/${editCategoryID}`, data,config);
       loadCategories(); // Reload categories after updating
       closeModal();
     } catch (error) {
@@ -89,7 +93,7 @@ function Categories() {
   async function deleteCategory(categoryID: number) {
     try {
       confirm("Are you sure you want to delete this category?");
-      await axios.delete(`http://localhost:8080/category/${categoryID}`);
+      await axios.delete(`http://localhost:8080/category/${categoryID}`,config);
       loadCategories();
     } catch (error) {
       alert("Error deleting category: " + error);
@@ -124,8 +128,16 @@ function Categories() {
 
   // Load categories on component mount
   useEffect(() => {
-    loadCategories();
-  }, []);
+    if (isAuthenticated) {
+      loadCategories();
+    }
+  }, [isAuthenticated]);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
 
   return (
     <div className="container mx-auto mt-5 mb-5 ml-10 w-[1200px]">

@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function login() {
+
+  const { login } = useAuth();
+
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -12,32 +17,34 @@ function login() {
     //const { login } = useAuth();
     const navigate = useNavigate();
 
-  // async function handleSubmit() {
-  //   if (userName === "" || password === "") {
-  //     setError("Please fill all the fields");
-  //   }
-  //   try {
-  //     const data = {
-  //       userName: userName,
-  //       password: password,
-  //     };
+ async function submit(event: any) {
+    event.preventDefault();
+    
+    if (userName === "" || password === "") {
+      setError("Please enter username and password");
+      return;
+    }
 
-  //     const response = await axios.post(
-  //       "http://localhost:8080/auth/login",
-  //       data
-  //     );
-  //       login(response.data);
-  //       navigate("/");
-  //   } catch (error) {
-  //     setError("Your username or password is incorrect");
-  //   }
-  // }
+    const data = {
+      username: userName,
+      password: password,
+    }
+
+   try {
+     const response = await axios.post("http://localhost:8080/auth/login", data);
+     login(response.data);
+     alert("Login Success");
+     navigate("/");
+   } catch (error) {
+     setError("Invalid username or password");
+   }
+  }
 
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="bg-white p-10 rounded-lg w-1/3 shadow-violet-500 border  shadow-2xl border-gray-200">
         <h1 className="text-2xl font-bold mb-5">Login</h1>
-        <form>
+        <form onSubmit={submit}>
           <div className="mb-5">
             <label htmlFor="userName" className="block mb-2">
               User Name
@@ -70,7 +77,7 @@ function login() {
           </div>
           {error && <div className="text-red-500 mt-2">{error}</div>}
           <button
-            type="button"
+            type="submit"
             className="w-full bg-violet-500 text-white p-2 rounded-md"
           >
             Login
@@ -79,6 +86,7 @@ function login() {
       </div>
     </div>
   );
-}
+  }
+  
 
 export default login;
